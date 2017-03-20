@@ -6,16 +6,16 @@ class Form extends Component {
     this.state = {
       name: this.props.name,
       favoriteCity: this.props.favoriteCity,
-    }
-    this.handleNameChange = this.handleNameChange.bind(this)
-    this.handleCityChange = this.handleCityChange.bind(this)
+    };
+    this.handleNameChange = this.handleNameChange.bind(this);
+    this.handleCityChange = this.handleCityChange.bind(this);
   }
 
   handleNameChange(ev){
-    this.setState({name: ev.target.value})
+    this.setState({name: ev.target.value});
   }
   handleCityChange(ev){
-    this.setState({favoriteCity: ev.target.value})
+    this.setState({favoriteCity: ev.target.value});
   }
 
   render() {
@@ -25,7 +25,7 @@ class Form extends Component {
 
     return (
       <div>
-        Name: <input type="text" id="name" value={this.state.name} onChange={this.handleNameChange} />
+        Name: <input type="text" id="name" value={this.state.name} onChange={this.handleNameChange} /> <br/>
         Favorite City: <input type="text" id="favoriteCity" value={this.state.favoriteCity} onChange={this.handleCityChange} />
       </div>
     );

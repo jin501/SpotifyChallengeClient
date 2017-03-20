@@ -1,3 +1,17 @@
+.App{
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.App-header {
+  background-color: #222;
+  height: 100px;
+  padding: 20px;
+  color: white;
+  flex: 1 100%;
+  text-align: center;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -7,6 +21,16 @@ ul{
   list-style-type: none;
   padding: 0;
 }
-#Action{
-  float: left;
+.Action{
+  /*float: left;*/
+  margin: 20px;
+  flex: 1 0 0;
+  border-right: thick double #ff0000;
+
+}
+.Display{
+  /*float: left;*/
+  margin: 20px;
+  flex: 1 0 0;
+
 }

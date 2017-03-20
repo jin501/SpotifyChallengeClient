@@ -1,27 +1,43 @@
-// postPerson().then( res => this.updateState(res) )
+// const url = "https://spotify-challenge.herokuapp.com/people"
+let url = `http://localhost:3001/people/`;
 
-export function getPeople(){
-  // debugger
-  const url = "https://spotify-challenge.herokuapp.com/people"
-  // const url = "http://localhost:3001/people"
-  return fetch(url).then(res => res.json())
+export function getPeople(id){
+  let requestURL = url;
+  if(id){ requestURL = url + id; }
+  return fetch(requestURL).then(res => res.json());
 }
 
-export function createPerson(){
-  const url = "https://spotify-challenge.herokuapp.com/people"
-  // const url = "http://localhost:3001/people"
-  const name = document.getElementById("name").value
-  const favoriteCity = document.getElementById("favoriteCity").value
+export function createEditOrDeletePerson(method, id){
+  let requestURL = url;
+  if(id){ requestURL = url + id; }
+  let data = {
+    method: method,
+    headers: {
+        'Accept': 'application/json, text/plain, */*',
+        'Content-Type': 'application/json'
+    },
+  };
+  if(method !== 'delete'){
+    const name = document.getElementById("name").value;
+    const favoriteCity = document.getElementById("favoriteCity").value;
+    const body = {body: JSON.stringify({person: {name: name, favoriteCity: favoriteCity}})};
+    data = { ...data, ...body }
+  }
+  return fetch(requestURL, data).then(res => res.json());
+}
+
+export function creditPerson(method, id){
+  let requestURL = url;
+  if(id){ requestURL = url + id; }
+  const name = document.getElementById("name").value;
+  const favoriteCity = document.getElementById("favoriteCity").value;
   const data = {
-    method: "POST",
+    method: method,
     headers: {
         'Accept': 'application/json, text/plain, */*',
         'Content-Type': 'application/json'
     },
     body: JSON.stringify({person: {name: name, favoriteCity: favoriteCity}})
-    };
-  return fetch(url, data).then(res => res.json())
-    // .then(res => {
-    //   // updateState(res)
-    // })
+  };
+  return fetch(requestURL, data).then(res => res.json());
 }
