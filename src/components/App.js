@@ -36,13 +36,13 @@ to execute based on the step number  */
         break;
       case 1:
         getPeople().then(res => {
-          history.pushState({}, null, '/people/new');
+          // history.pushState({}, null, '/people/new');
           this.updateState(res);
         });
         break;
       case 2:
         createEditOrDeletePerson('post').then(res => {
-          history.pushState({}, null, `/people/${res.id}`);
+          // history.pushState({}, null, `/people/${res.id}`);
           const data = [...this.state.data, res];
           this.updateState(data);
         });
@@ -50,19 +50,19 @@ to execute based on the step number  */
       case 3:
         const lastCreated = this.state.data.pop();
         getPeople(lastCreated.id).then(res => {
-          history.pushState({}, null, `/people/${lastCreated.id}/edit`);
+          // history.pushState({}, null, `/people/${lastCreated.id}/edit`);
           this.updateState([res]);
         });
         break;
       case 4:
         createEditOrDeletePerson('put', this.state.data[0].id).then(res => {
-          history.pushState({}, null, '/people/1');
+          // history.pushState({}, null, '/people/1');
           this.updateState([res]);
         });
         break;
       case 5:
         getPeople(1).then(res => {
-          history.pushState({}, null, '/people/1');
+          // history.pushState({}, null, '/people/1');
           if(!res){
             alert(`Person was not found in database. Please skip to the next step!`)
           }
@@ -71,18 +71,18 @@ to execute based on the step number  */
         break;
       case 6:
         createEditOrDeletePerson('delete', 1).then(res => {
-          history.pushState({}, null, '/people');
+          // history.pushState({}, null, '/people');
           this.updateState(res);
         });
         break;
       case 7:
         getPeople().then(res => {
-          history.pushState({}, null, '/people');
+          // history.pushState({}, null, '/people');
           this.updateState(res);
         });
         break;
       case 8:
-        history.pushState({}, null, '/');
+        // history.pushState({}, null, '/');
         location.reload();
         break;
       default:

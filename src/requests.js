@@ -21,6 +21,7 @@ export function createEditOrDeletePerson(method, id){
     const favoriteCity = document.getElementById("favoriteCity").value;
     const body = {body: JSON.stringify({person: {name: name, favoriteCity: favoriteCity}})};
     data = { ...data, ...body }
+    // data = Object.assign({}, data, body);
   }
   return fetch(requestURL, data).then(res => res.json());
 }
