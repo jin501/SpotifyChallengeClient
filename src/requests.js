@@ -1,5 +1,5 @@
-// const url = "https://spotify-challenge.herokuapp.com/people"
-let url = `http://localhost:3001/people/`;
+let url = `https://spotify-challenge.herokuapp.com/people`;
+// let url = `http://localhost:3001/people/`;
 
 export function getPeople(id){
   let requestURL = url;
