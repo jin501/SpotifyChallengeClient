@@ -5,7 +5,6 @@ import Instruction from './Instruction';
 import Form from './Form';
 import { getPeople, createEditOrDeletePerson } from '../requests';
 import step from '../step';
-import '../App.css';
 
 class App extends Component {
   constructor(){
@@ -23,22 +22,27 @@ class App extends Component {
     };
     this.handleButtonClick = this.handleButtonClick.bind(this);
 
-    // preserve the initial state in a new object
+    /* meant to preserve the initial state in a new object */
     this.baseState = this.state;
   }
 
+/* button event listener that decides what function(s)
+to execute based on the step number  */
   handleButtonClick(){
     switch (this.state.stepNumber) {
       case 0:
+        history.pushState({}, null, '/people');
         this.updateState();
         break;
       case 1:
         getPeople().then(res => {
+          history.pushState({}, null, '/people/new');
           this.updateState(res);
         });
         break;
       case 2:
         createEditOrDeletePerson('post').then(res => {
+          history.pushState({}, null, `/people/${res.id}`);
           const data = [...this.state.data, res];
           this.updateState(data);
         });
@@ -46,30 +50,39 @@ class App extends Component {
       case 3:
         const lastCreated = this.state.data.pop();
         getPeople(lastCreated.id).then(res => {
+          history.pushState({}, null, `/people/${lastCreated.id}/edit`);
           this.updateState([res]);
         });
         break;
       case 4:
         createEditOrDeletePerson('put', this.state.data[0].id).then(res => {
+          history.pushState({}, null, '/people/1');
           this.updateState([res]);
         });
         break;
       case 5:
-        getPeople(this.state.data[0].id).then(res => {
+        getPeople(1).then(res => {
+          history.pushState({}, null, '/people/1');
+          if(!res){
+            alert(`Person was not found in database. Please skip to the next step!`)
+          }
           this.updateState([res]);
         });
         break;
       case 6:
-        createEditOrDeletePerson('delete', this.state.data[0].id).then(res => {
+        createEditOrDeletePerson('delete', 1).then(res => {
+          history.pushState({}, null, '/people');
           this.updateState(res);
         });
         break;
       case 7:
         getPeople().then(res => {
+          history.pushState({}, null, '/people');
           this.updateState(res);
         });
         break;
       case 8:
+        history.pushState({}, null, '/');
         location.reload();
         break;
       default:
@@ -77,6 +90,7 @@ class App extends Component {
     }
   }
 
+  /* calls a helper class step.next and then setState */
   updateState(data=[]){
     const { buttonValue, stepNumber, instruction, displayForm } = step.next();
     this.setState({
@@ -92,17 +106,15 @@ class App extends Component {
     return (
       <div className="App">
         <div className="App-header">
-          <h2>Welcome!</h2>
+          <h1>People of Spotify</h1>
         </div>
-
-        <div className="Action">
-          <Instruction step={this.state.instruction} />
-          <Form display={this.state.displayForm} name={this.state.prefillForm.name} favoriteCity={this.state.prefillForm.favoriteCity}/>
-          <Button onClick={this.handleButtonClick} value={this.state.buttonValue} />
-        </div>
-
-        <div className="Display">
-          <PeopleList people={this.state.data} />
+        <div className="App-body">
+          <div className="col" id="Action">
+            <Instruction step={this.state.instruction} />
+            <Form display={this.state.displayForm} name={this.state.prefillForm.name} favoriteCity={this.state.prefillForm.favoriteCity}/>
+            <Button onClick={this.handleButtonClick} value={this.state.buttonValue} />
+          </div>
+            <PeopleList people={this.state.data} />
         </div>
       </div>
     );

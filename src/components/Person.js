@@ -1,13 +1,19 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class Person extends Component {
-  render() {
-    return (
-      <li>
-        {this.props.id}. {this.props.name} {this.props.favoriteCity}
-      </li>
-    );
-  }
+const Person = ({id, name, favoriteCity}) => {
+  return (
+    <div className="row" id="hoverableRow">
+      <div className="cell">
+        {id}
+      </div>
+      <div className="cell">
+        {name}
+        </div>
+      <div className="cell">
+        {favoriteCity}
+      </div>
+    </div>
+  );
 }
 
 export default Person;

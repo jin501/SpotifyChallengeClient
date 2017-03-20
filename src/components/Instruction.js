@@ -1,12 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class Instruction extends Component {
-
-  render() {
-    return (
-      <p>{this.props.step}</p>
-    );
-  }
+const Instruction = ({step}) => {
+  return (<p>{step}</p>);
 }
 
 export default Instruction;
