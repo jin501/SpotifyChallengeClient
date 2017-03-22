@@ -3,7 +3,7 @@ increments the next step, and finds the next states.
 Lines 5-8 are variables that determine the next step */
 
 const buttonValues = ["GET people index", "Create Person", "GET last created person", "Edit Person", "Show person at id: 1", "DELETE person at id: 1", "GET people index", "start over"];
-const instructions = ["1. Make a GET request to /people", "2. Make a POST request to /people", "3. Make a GET request to retrieve the object created in the previous request", "4. Make a PUT request to /people and modify the attribute city to be 'Brooklyn'", "5. Make a GET request to /people/1", "6. Make a DELETE request to /people/1", "7. Make a GET request to /people", "All Done! Click to start back from step 1."];
+const instructions = ["1. Click button to make a GET request to /people", "2. Use this form to make a POST request to /people", "3. Click to make a GET request to retrieve the object created in the previous request", "4. Use this form to modify the city attribute to be 'Brooklyn', then click button to make a PUT request to /people", "5. Click to make a GET request to /people/1", "6. Click to make a DELETE request to /people/1", "7. Click to make a GET request to /people", "All Done! Click to start over"];
 const displayForm = [false, true, false, true, false, false, false];
 let currentStepNumber = 0;
 

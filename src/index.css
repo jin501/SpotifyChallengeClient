@@ -22,6 +22,7 @@ div{}
     background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('/music.jpg');
     display: flex;
     height:100vh;
+    overflow: auto;
     justify-content: space-between;
   }
 
@@ -33,7 +34,6 @@ div{}
   #Action{
     border-right: thick double #a5ce3e;
     flex: 1 40%;
-    max-height: 400px;
   }
 
   #Display{

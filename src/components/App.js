@@ -13,7 +13,7 @@ class App extends Component {
     this.state = {
       data: [],
       buttonValue: 'Start',
-      instruction: "To begin a walkthrough of the client app, please click start:",
+      instruction: "Welcome! To begin a walkthrough of this client application, please click start:",
       stepNumber: 0,
       displayForm: false,
       prefillForm: {
@@ -110,7 +110,7 @@ to execute based on the current step number */
   stepFive(id){
     getPeople(id).then(res => {
       if(!res){
-        var id = prompt("Person was not found in database. Please enter another ID number to find:", "2");
+        var id = prompt("Sorry, Person was not found in database. Please enter another ID number to find:", "2");
         this.stepFive(id);
       }
       if(res){
@@ -122,7 +122,7 @@ to execute based on the current step number */
   stepSix(id){
     createEditOrDeletePerson('delete', id).then(res => {
       if(!res){
-        var id = prompt("Person has already been deleted. Please enter another ID number to delete:", "2");
+        var id = prompt("Person has already been deleted. Please enter another ID number of a person entry you wish to delete:", "2");
         this.stepSix(id);
       }
       if(res){
