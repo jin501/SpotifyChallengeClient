@@ -28,7 +28,7 @@ class App extends Component {
   }
 
 /* button event listener that decides what function(s)
-to execute based on the step number  */
+to execute based on the current step number */
   handleButtonClick(){
     switch (this.state.stepNumber) {
       case 0:
@@ -40,28 +40,29 @@ to execute based on the step number  */
         break;
 
       case 2:
+      /* First validate input fields using helper method checkInvalidForm */
         if(checkInvalidForm()){
-          alert("please enter both fields")
+          alert("please enter both fields");
           break;
         }
         this.stepTwo();
         break;
 
       case 3:
+      /* grab the last created person from state */
         const lastCreated = this.state.data.pop();
-        getPeople(lastCreated.id).then(res => {
-          this.updateState([res]);
-        });
+        getPeople(lastCreated.id)
+          .then(res => { this.updateState([res]); });
         break;
 
       case 4:
+      /* First validate input fields using helper method checkInvalidForm */
         if(checkInvalidForm()){
-          alert("please enter both fields")
+          alert("please enter both fields");
           break;
         }
-        createEditOrDeletePerson('put', this.state.data[0].id).then(res => {
-          this.updateState([res]);
-        });
+        createEditOrDeletePerson('put', this.state.data[0].id)
+          .then(res => { this.updateState([res]); });
         break;
 
       case 5:
@@ -73,20 +74,19 @@ to execute based on the step number  */
         break;
 
       case 7:
-        getPeople().then(res => {
-          this.updateState(res);
-        });
+        getPeople().then(res => { this.updateState(res); });
         break;
 
       case 8:
         location.reload();
         break;
-        
+
       default:
         this.setState(this.baseState);
     }
   }
 
+  /* this function loads the spinner, then makes a GET request */
   stepOne(){
     loadSpinner();
     getPeople().then(data => {
@@ -98,7 +98,10 @@ to execute based on the step number  */
   }
 
   stepTwo(){
+    /* make post request */
     createEditOrDeletePerson('post').then(res => {
+    /* using spread operator to add response, which is the
+    newly created object to the current this.state.data object */
       const data = [...this.state.data, res];
       this.updateState(data);
     });
@@ -128,9 +131,8 @@ to execute based on the step number  */
     });
   }
 
-  /* calls a helper class step.next and then setState */
+  /* calls a helper class step.next and then calls setState */
   updateState(data=[]){
-    // debugger
     const { buttonValue, stepNumber, instruction, displayForm } = step.next();
     this.setState({
       data,
@@ -145,7 +147,7 @@ to execute based on the step number  */
     return (
       <div className="App">
         <div className="App-header">
-          <h1>People of Spotify</h1>
+          <h1>Spoti<span>find</span></h1>
         </div>
         <div className="App-body">
           <div className="col" id="Action">
