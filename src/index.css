@@ -33,6 +33,13 @@ div{}
     flex: 1 40%;
   }
 
+  #Display{
+    text-align:center;
+  }
+
+#loader{
+  margin: auto;
+}
 /* Typography */
 p, li, div {
    color: black;
@@ -82,7 +89,7 @@ p, li, div {
   border-radius: 10px;
   margin:10px;
   width: auto;
-  height: 40px;
+  height: auto;
   font-size: 1em;
   font-family: "Tahoma", Geneva, sans-serif;
 

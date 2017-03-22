@@ -4,6 +4,7 @@ import PeopleList from './PeopleList';
 import Instruction from './Instruction';
 import Form from './Form';
 import { getPeople, createEditOrDeletePerson } from '../requests';
+import { checkInvalidForm, loadSpinner } from '../helpers';
 import step from '../step';
 
 class App extends Component {
@@ -31,67 +32,105 @@ to execute based on the step number  */
   handleButtonClick(){
     switch (this.state.stepNumber) {
       case 0:
-        history.pushState({}, null, '/people');
         this.updateState();
         break;
+
       case 1:
-        getPeople().then(res => {
-          // history.pushState({}, null, '/people/new');
-          this.updateState(res);
-        });
+        this.stepOne();
         break;
+
       case 2:
-        createEditOrDeletePerson('post').then(res => {
-          // history.pushState({}, null, `/people/${res.id}`);
-          const data = [...this.state.data, res];
-          this.updateState(data);
-        });
+        if(checkInvalidForm()){
+          alert("please enter both fields")
+          break;
+        }
+        this.stepTwo();
         break;
+
       case 3:
         const lastCreated = this.state.data.pop();
         getPeople(lastCreated.id).then(res => {
-          // history.pushState({}, null, `/people/${lastCreated.id}/edit`);
           this.updateState([res]);
         });
         break;
+
       case 4:
+        if(checkInvalidForm()){
+          alert("please enter both fields")
+          break;
+        }
         createEditOrDeletePerson('put', this.state.data[0].id).then(res => {
-          // history.pushState({}, null, '/people/1');
           this.updateState([res]);
         });
         break;
+
       case 5:
-        getPeople(1).then(res => {
-          // history.pushState({}, null, '/people/1');
-          if(!res){
-            alert(`Person was not found in database. Please skip to the next step!`)
-          }
-          this.updateState([res]);
-        });
+        this.stepFive(1);
         break;
+
       case 6:
-        createEditOrDeletePerson('delete', 1).then(res => {
-          // history.pushState({}, null, '/people');
-          this.updateState(res);
-        });
+        this.stepSix(1);
         break;
+
       case 7:
         getPeople().then(res => {
-          // history.pushState({}, null, '/people');
           this.updateState(res);
         });
         break;
+
       case 8:
-        // history.pushState({}, null, '/');
         location.reload();
         break;
+        
       default:
         this.setState(this.baseState);
     }
   }
 
+  stepOne(){
+    loadSpinner();
+    getPeople().then(data => {
+      /* remove the loader */
+      document.getElementById("Display").innerHTML = ""
+      /* call setState with new data */
+      this.updateState(data);
+    });
+  }
+
+  stepTwo(){
+    createEditOrDeletePerson('post').then(res => {
+      const data = [...this.state.data, res];
+      this.updateState(data);
+    });
+  }
+
+  stepFive(id){
+    getPeople(id).then(res => {
+      if(!res){
+        var id = prompt("Person was not found in database. Please enter another ID number to find:", "2");
+        this.stepFive(id);
+      }
+      if(res){
+        this.updateState([res]);
+      }
+    });
+  }
+
+  stepSix(id){
+    createEditOrDeletePerson('delete', id).then(res => {
+      if(!res){
+        var id = prompt("Person has already been deleted. Please enter another ID number to delete:", "2");
+        this.stepSix(id);
+      }
+      if(res){
+        this.updateState(res);
+      }
+    });
+  }
+
   /* calls a helper class step.next and then setState */
   updateState(data=[]){
+    // debugger
     const { buttonValue, stepNumber, instruction, displayForm } = step.next();
     this.setState({
       data,

@@ -1,9 +1,10 @@
 import React from 'react';
 import Person from './Person';
 
+
 const PeopleList = ({people}) => {
   if (people.length === 0){
-    return <div className="col"/>;
+    return (<div className="col" id="Display"></div>)
   }
 
   const peopleList = people.map( person => {
@@ -16,8 +17,9 @@ const PeopleList = ({people}) => {
     );
   });
 
+
   return (
-    <div className="col">
+    <div className="col" id="Display">
       <div className="table">
         <div className="row">
           <div className="cell" id="thead">ID</div>

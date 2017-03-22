@@ -1,9 +1,20 @@
+// let url = `https://sol-jin.herokuapp.com/`;
 let url = `https://spotify-challenge.herokuapp.com/people/`;
 
 export function getPeople(id){
   let requestURL = url;
   if(id){ requestURL = url + id; }
-  return fetch(requestURL).then( res => res.json());
+  return fetch(requestURL)
+    .then(handleErrors)
+    .then(response => response.json() )
+    .catch(error => console.log(error) );
+}
+
+function handleErrors(response) {
+  if (!response.ok) {
+    throw Error(response.statusText);
+  }
+  return response;
 }
 
 export function createEditOrDeletePerson(method, id){
@@ -23,21 +34,8 @@ export function createEditOrDeletePerson(method, id){
     data = { ...data, ...body }
     // data = Object.assign({}, data, body);
   }
-  return fetch(requestURL, data).then(res => res.json());
-}
-
-export function creditPerson(method, id){
-  let requestURL = url;
-  if(id){ requestURL = url + id; }
-  const name = document.getElementById("name").value;
-  const favoriteCity = document.getElementById("favoriteCity").value;
-  const data = {
-    method: method,
-    headers: {
-        'Accept': 'application/json, text/plain, */*',
-        'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({person: {name: name, favoriteCity: favoriteCity}})
-  };
-  return fetch(requestURL, data).then(res => res.json());
+  return fetch(requestURL, data)
+    .then(handleErrors)
+    .then(res => res.json())
+    .catch(error => console.log(error) );
 }
